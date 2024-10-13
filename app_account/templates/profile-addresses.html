@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+        <!-- Start main-content -->
+        <main class="main-content dt-sl mb-3">
+            <div class="container main-container">
+                <div class="row">
+                    <!-- Start Sidebar -->
+                    <div class="col-xl-3 col-lg-4 col-md-4 col-sm-12 sticky-sidebar">
+                        <div class="profile-sidebar dt-sl">
+                            <div class="dt-sl dt-sn border mb-3">
+                                <div class="profile-sidebar-header dt-sl">
+                                    <div class="d-flex align-items-center">
+                                        <div class="profile-avatar">
+                                            {% if profile.image %}
+                                                <img src="{{ profile.image.url }}" alt="">
+                                            {% else %}
+                                            {% endif %}
+                                            
+                                        </div>
+                                        <div class="profile-header-content mr-3 mt-2">
+                                            <span class="d-block profile-username">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+                                            <span class="d-block profile-phone">{{ profile.phone_number }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="profile-link mt-2 dt-sl">
+                                        <div class="row">
+                                            <div class="col-6 text-center">
+                                                <a href="{% url "pass_change" %}">
+                                                    <i class="mdi mdi-lock-reset"></i>
+                                                    <span class="d-block">تغییر رمز</span>
+                                                </a>
+                                            </div>
+                                            <div class="col-6 text-center">
+                                                <a href="{% url 'logout' %}">
+                                                    <i class="mdi mdi-logout-variant"></i>
+                                                    <span class="d-block">خروج از حساب</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dt-sl dt-sn mb-3 text-center">
+                                <a href="#">
+                                    <img src="./assets/img/banner/sidebar-banner-3.jpg" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="dt-sl dt-sn border mb-3">
+                                <div class="profile-menu-section dt-sl">
+                                    <div class="label-profile-menu mt-2 mb-2">
+                                        <span>حساب کاربری شما</span>
+                                    </div>
+                                    <div class="profile-menu">
+                                        <ul>
+                                            <li>
+                                                <a href="{% url "profile" %}">
+                                                    <i class="mdi mdi-account-circle-outline"></i>
+                                                    پروفایل
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="" class="active">
+                                                    <i class="mdi mdi-sign-direction"></i>
+                                                    آدرس ها
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url "profile_edit" %}">
+                                                    <i class="mdi mdi-account-edit-outline"></i>
+                                                    اطلاعات شخصی
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Sidebar -->
+                    <!-- Start Content -->
+                    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div
+                                    class="section-title text-sm-title title-wide mb-1 no-after-title-wide dt-sl mb-2 px-res-1">
+                                    <h2>آدرس ها</h2>
+                                </div>
+                                <div class="form-ui additional-info dt-sl dt-sn pt-4">
+                                    <form action="{% url 'profile_address' %}"  method="POST" >
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-row-title">
+                                                    <h3>کد پستی</h3>
+                                                </div>
+                                                <div class="form-row">
+                                                    <input type="text" class="input-ui pr-2"
+                                                        placeholder="کد پستی را وارد نمایید" value="" name="postal_code" >
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <div class="form-row-title">
+                                                    <h3>ادرس دقیق</h3>
+                                                </div>
+                                                <div class="form-row">
+                                                    <input type="text" class="input-ui pr-2"
+                                                        placeholder="ادرس خود را به طور دقیق وارد نمایید"
+                                                        value="" name="description" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="dt-sl">
+                                            <div class="form-row mt-3 justify-content-end">
+                                                <button class="btn-primary-cm btn-with-icon ml-2" type="submit" >
+                                                    <i class="mdi mdi-account-circle-outline"></i>
+                                                    ثبت ادرس
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <h2>آدرس‌های ثبت شده</h2>
+                                {% if addresses %}
+                                    <ul>
+                                        {% for address in addresses %}
+                                            </br>
+                                            <li>
+                                                <strong>کد پستی:</strong> {{ address.postal_code }}<br>
+                                                <strong>توضیحات:</strong> {{ address.description }}<br>
+                                
+                                                <!-- فرم حذف آدرس -->
+                                                <form method="POST" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="delete_address_id" value="{{ address.id }}">
+                                                    <button type="submit" class="btn btn-danger">حذف</button>
+                                                </form>
+                                            </li>
+                                            </br>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p>شما هیچ آدرسی ثبت نکرده‌اید.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Content -->
+                </div>
+            </div>
+        </main>
+        <!-- End main-content -->
+
+{% endblock content %}

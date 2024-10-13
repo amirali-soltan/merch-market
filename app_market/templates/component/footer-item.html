@@ -1,0 +1,27 @@
+{% load humanize %}
+
+
+<div class="col-12">
+    <div class="card-horizontal-product border-bottom rounded-0">
+        <div class="card-horizontal-product-thumb">
+            <a href="{{ product.get_absolute_url }}">
+                <img src="{{ product.images.last.image.url }}" alt="">
+            </a>
+        </div>
+        <div class="card-horizontal-product-content">
+            <div class="card-horizontal-product-title">
+                <a href="{{ product.get_absolute_url }}">
+                    <h3>{{product.name_fa}}</h3>
+                </a>
+            </div>
+            <div class="rating-stars">
+            </div>
+            <div class="card-horizontal-product-price">
+                <span>{{ product.price|intcomma }} </span>
+            </div>
+            <div class="card-horizontal-product-buttons">
+                <a href="{{ product.get_absolute_url }}" class="btn btn-outline-info">جزئیات محصول</a>
+            </div>
+        </div>
+    </div>
+</div>

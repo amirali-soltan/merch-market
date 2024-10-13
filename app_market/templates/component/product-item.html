@@ -1,0 +1,29 @@
+{% load humanize %}
+
+
+<div class="item">
+    <div class="product-card mb-3 shadow-unset">
+        <div class="product-head">
+            <div class="rating-stars">
+                
+            </div>
+            <div class="discount">
+                
+            </div>
+        </div>
+        <a class="product-thumb" href="{{ product.get_absolute_url }}">
+            <img src="{{ product.images.first.image.url }}" alt="Product Thumbnail">
+        </a>
+        <div class="product-card-body">
+            <h5 class="product-title">
+                <a href="{{ product.get_absolute_url }}">{{ product.name_fa }}</a>
+            </h5>
+            <a class="product-meta" href="shop-categories.html">
+                {% for category in product.Category.all %}
+                {{ category.name }}{% if not forloop.last %}،{% endif %}
+                {% endfor %}
+            </a>
+            <span class="product-price"> {{ product.price|intcomma }} تومان</span>
+        </div>
+    </div>
+</div>

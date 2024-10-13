@@ -1,0 +1,17 @@
+{% for c in category %}
+    {% if c.parent == None %}
+        <li><a href="{% url 'app_market:product_list_by_category' c.id %}">{{ c.name }}</a>
+            {% if c.sub_categories.all %}
+                <ul class="row">
+                    {%for c in c.sub_categories.all%}   
+                        <li class="sublist--title"><a href="{% url 'app_market:product_list_by_category' c.id %}">{{ c.name }} </a>
+                            {% for c in c.sub_categories.all %}
+                                <li class="sublist--item"><a href="{% url 'app_market:product_list_by_category' c.id %}">{{ c.name }}</a></li>
+                            {% endfor %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endif %}
+{% endfor %}
